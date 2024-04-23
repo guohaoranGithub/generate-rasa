@@ -74,6 +74,7 @@ public class BotProjectGenerator {
             //创建actions文件
             String actionsFile = actionsDirPath + "actions.py";
             createFile(actionsFile);
+            System.out.println("====================================Successfully created robot project directory====================================");
             //打印项目结构
             DirectoryStructurePrinter.printDirectoryStructure(projectDir);
         } catch (IOException e) {

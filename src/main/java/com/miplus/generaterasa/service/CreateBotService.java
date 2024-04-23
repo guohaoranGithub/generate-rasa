@@ -19,19 +19,19 @@ public abstract class CreateBotService {
     //把数据库的数据对象解析成机器人配置类
     public abstract BotConfig voToConfig(BaseModel vo);
 
-    public final String createBot(BaseModel vo) {
+    public final String createBot(BaseModel model) {
         //创建项目目录和文件
-        botProjectGenerator.generateBotProject(vo);
+        botProjectGenerator.generateBotProject(model);
         try {
             //解析vo
-            BotConfig botConfig = this.voToConfig(vo);
+            BotConfig botConfig = this.voToConfig(model);
             //写入rasa配置
-            BotConfigWriter writer = (BotConfigWriter)SpringBeanUtil.getBean(vo.getBotType().getWriter());
+            BotConfigWriter writer = (BotConfigWriter)SpringBeanUtil.getBean(model.getBotType().getWriter());
             writer.writeBotConfig(botConfig);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return vo.getPath();
+        return model.getPath();
     }
 
 }

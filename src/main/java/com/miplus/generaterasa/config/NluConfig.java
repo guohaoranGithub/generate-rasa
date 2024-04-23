@@ -1,11 +1,9 @@
 package com.miplus.generaterasa.config;
 
 import com.miplus.generaterasa.utils.FileReader;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 

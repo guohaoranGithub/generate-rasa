@@ -19,12 +19,12 @@ public class BotController {
     /**
      * 创建FAQ/闲聊机器人
      *
-     * @param FAQVo
+     * @param faqModel
      * @return
      */
     @PostMapping("/createFAQBot")
-    public String createFAQBot(@RequestBody @Validated FAQModel FAQVo) {
-        String path = faqBotService.createBot(FAQVo);
+    public String createFAQBot(@RequestBody @Validated FAQModel faqModel) {
+        String path = faqBotService.createBot(faqModel);
         return "The robot project has been successfully created. Please go to the " + path + " directory to view it.";
     }
 
