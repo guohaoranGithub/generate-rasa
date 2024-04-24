@@ -1,4 +1,4 @@
-package com.miplus.generaterasa.Enum;
+package com.miplus.generaterasa.constant;
 
 /**
  * 问题类型枚举

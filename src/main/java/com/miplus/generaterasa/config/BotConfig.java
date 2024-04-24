@@ -1,6 +1,6 @@
 package com.miplus.generaterasa.config;
 
-import com.miplus.generaterasa.Enum.BotTypeEnum;
+import com.miplus.generaterasa.constant.BotTypeEnum;
 import lombok.Data;
 
 /**
@@ -20,5 +20,21 @@ public class BotConfig {
      * nlu配置对象
      */
     private NluConfig nluConfig;
+    /**
+     * responses配置对象
+     */
+    private ResponsesConfig responsesConfig;
+    /**
+     * stories配置对象
+     */
+    private StoriesConfig storiesConfig;
+    /**
+     * rules配置对象
+     */
+    private RulesConfig rulesConfig;
+    /**
+     * domain配置对象
+     */
+    private DomainConfig domainConfig;
 
 }

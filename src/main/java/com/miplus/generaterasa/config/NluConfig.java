@@ -1,11 +1,13 @@
 package com.miplus.generaterasa.config;
 
+import com.miplus.generaterasa.constant.DefaultConfigure;
 import com.miplus.generaterasa.utils.FileReader;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * nlu包括：
@@ -17,16 +19,17 @@ import java.util.List;
 public class NluConfig {
 
     public LinkedHashMap<String, List<String>> getIntentMap() {
+        //初始化默认配置
         if (null == this.intentMap) {
             this.intentMap = new LinkedHashMap<>();
-            //初始化默认配置
             FileReader fileReader = new FileReader();
-            List<String> goodbyes = fileReader
-                    .readLinesFromFile("src/main/resources/data/nlu/goodbye_intent.txt");
-            intentMap.put("goodbye", goodbyes);
-            List<String> greets = fileReader
-                    .readLinesFromFile("src/main/resources/data/nlu/greet_intent.txt");
-            intentMap.put("greet", greets);
+            Map<String, String> intents = DefaultConfigure.INTENTS;
+            for (Map.Entry<String, String> entry : intents.entrySet()) {
+                String intent = entry.getKey();
+                String path = entry.getValue();
+                intentMap.put(intent, fileReader
+                        .readLinesFromFile(path));
+            }
         }
         return intentMap;
     }
