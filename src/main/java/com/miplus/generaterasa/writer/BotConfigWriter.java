@@ -53,6 +53,15 @@ public class BotConfigWriter {
         String storiesContent = this.getStoriesContent(botConfig);
         String storiesPath = projectDirectory + "/data/" + "stories.yml";
         this.write(storiesContent, storiesPath);
+
+        //写入responses文件
+        String responsesContent = this.getResponsesContent(botConfig);
+        String responsesPath = projectDirectory + "/data/" + "responses.yml";
+        this.write(responsesContent, responsesPath);
+    }
+
+    private String getResponsesContent(BotConfig botConfig) {
+        return "version: \"3.0\"\n";
     }
 
     public String getNluContent(BotConfig config) {
