@@ -3,7 +3,6 @@ package com.miplus.generaterasa.controller;
 import com.miplus.generaterasa.generator.BotProjectGenerator;
 import com.miplus.generaterasa.param.BindFAQParam;
 import com.miplus.generaterasa.param.CreateBotParam;
-import com.miplus.generaterasa.service.BotService;
 import com.miplus.generaterasa.service.FAQService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +20,7 @@ public class BotController {
 
     /**
      * 创建机器人项目
-     *
+     * 初始化项目结构，基础文件
      * @param param
      * @return
      */

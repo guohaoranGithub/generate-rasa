@@ -1,17 +1,25 @@
 package com.miplus.generaterasa.generator;
 
+import com.miplus.generaterasa.config.*;
 import com.miplus.generaterasa.utils.DirectoryStructurePrinter;
+import com.miplus.generaterasa.writer.BotConfigWriter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 生成Rasa项目
  */
 @Component
 public class BotProjectGenerator {
+    @Autowired
+    private BotConfigWriter botConfigWriter;
+
     /**
      * 创建rasa项目
      *
@@ -19,6 +27,38 @@ public class BotProjectGenerator {
      * @return
      */
     public String generateBotProject(String path) {
+        //初始化项目
+        this.createProjectStructure(path);
+        //初始化配置
+        BotConfig defaultConfig = this.getDefaultConfig();
+        defaultConfig.setProjectDirectory(path);
+        botConfigWriter.writeDefaultBotConfig(defaultConfig);
+        return path;
+    }
+
+    private BotConfig getDefaultConfig() {
+        BotConfig config = new BotConfig();
+        //domain配置
+        DomainConfig domainConfig = new DomainConfig();
+        domainConfig.setSessionConfig(new SessionConfig());
+        config.setDomainConfig(domainConfig);
+        //nlu配置
+        NluConfig nluConfig = new NluConfig();
+        LinkedHashMap<String, List<String>> intentMap = nluConfig.getIntentMap();
+        nluConfig.setIntentMap(intentMap);
+        config.setNluConfig(nluConfig);
+        //rule配置
+        RulesConfig rulesConfig = new RulesConfig();
+        LinkedHashMap<String, String> stepsMap = rulesConfig.getStepsMap();
+        stepsMap.put("nlu_fallback", "action_default_fallback");
+        config.setRulesConfig(rulesConfig);
+        //故事配置
+        StoriesConfig storiesConfig = new StoriesConfig();
+        config.setStoriesConfig(storiesConfig);
+        return config;
+    }
+
+    private void createProjectStructure(String path) {
         // 创建项目目录
         File projectDir = new File(path);
         projectDir.mkdirs();
@@ -66,10 +106,11 @@ public class BotProjectGenerator {
         //创建actions文件
         String actionsFile = actionsDirPath + "actions.py";
         createFile(actionsFile);
+        String initFile = actionsDirPath + "__init__.py";
+        createFile(initFile);
         System.out.println("====================================Successfully created robot project directory====================================");
         //打印项目结构
         DirectoryStructurePrinter.printDirectoryStructure(projectDir);
-        return path;
     }
 
     public static void createFile(String filePath) {

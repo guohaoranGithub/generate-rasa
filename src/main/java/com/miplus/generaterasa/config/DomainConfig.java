@@ -33,7 +33,7 @@ public class DomainConfig {
         if (null == responsesMap) {
             responsesMap = new LinkedHashMap<>();
             //初始化默认配置
-            Map<String, String> faqResponsesUtter = DefaultConfigure.FAQ_RESPONSES_UTTER;
+            Map<String, String> faqResponsesUtter = DefaultConfigure.RESPONSES_UTTER;
             for (Map.Entry<String, String> entry : faqResponsesUtter.entrySet()) {
                 String utter = entry.getKey();
                 String text = entry.getValue();
@@ -51,7 +51,7 @@ public class DomainConfig {
         if (null == actions || actions.isEmpty()) {
             //初始化默认配置
             actions = new ArrayList<>();
-            Map<String, String> faqResponsesUtter = DefaultConfigure.FAQ_RESPONSES_UTTER;
+            Map<String, String> faqResponsesUtter = DefaultConfigure.RESPONSES_UTTER;
             actions.addAll(faqResponsesUtter.keySet());
         }
         return actions;

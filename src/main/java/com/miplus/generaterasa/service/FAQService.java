@@ -1,15 +1,15 @@
 package com.miplus.generaterasa.service;
 
-import com.miplus.generaterasa.config.*;
-import com.miplus.generaterasa.constant.BotTypeEnum;
 import com.miplus.generaterasa.param.BindFAQParam;
 import com.miplus.generaterasa.vo.FAQVo;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- *
+ *业务相关
  */
 @Service
 public class FAQService extends BotService {
@@ -19,7 +19,7 @@ public class FAQService extends BotService {
      * @param param
      */
     public void bindData(BindFAQParam param) {
-        //todo 查询数据库并设置到BaseModel，假设查出来是一个FAQVo对象的列表,并手动给他设置一些测试数据
+        //查数据库......
         ArrayList<String> strings = new ArrayList<>();
         strings.add("可以申请几个职位?");
         strings.add("我能申请几个职位?");
@@ -35,59 +35,11 @@ public class FAQService extends BotService {
                 new FAQVo("面试什么时候开始?会提前多少天通知面试安排?", "不同的职位面试进度安排不同，除特殊安排外，笔试结束一周左右会安排面试。", null),
                 new FAQVo("一般会安排几次面试?", "一般情况下，业务部门和人力资源部会同时或者分别安排一次面试。个别特殊职位需要2次及以上的面试。", null));
 
-        BotConfig config = this.voToConfig(faqVos, param.getBotPath());
-        this.writeToBot(config);
-    }
+        //数据库对象转成config对象
 
-    /**
-     * 数据库对象转换成rasa配置对象
-     *
-     * @param faqVos
-     * @return
-     */
-    public BotConfig voToConfig(List<FAQVo> faqVos, String path) {
-        BotConfig config = new BotConfig();
-        config.setBotType(BotTypeEnum.FAQ);
-        config.setProjectDirectory(path);
-        //nlu配置
-        NluConfig nluConfig = new NluConfig();
-        LinkedHashMap<String, List<String>> intentMap = nluConfig.getIntentMap();
-        //responses配置
-        ResponsesConfig responsesConfig = new ResponsesConfig();
-        LinkedHashMap<String, String> utterMap = responsesConfig.getUtterMap();
-        //stories配置
-        StoriesConfig storiesConfig = new StoriesConfig();
-        //rules配置
-        RulesConfig rulesConfig = new RulesConfig();
-        LinkedHashMap<String, String> stepsMap = rulesConfig.getStepsMap();
-        stepsMap.put("faq","utter_faq");
-        //domain配置
-        DomainConfig domainConfig = new DomainConfig();
-        domainConfig.setSessionConfig(new SessionConfig());
-        List<String> actions = domainConfig.getActions();
-        domainConfig.getIntents().add("faq");
-        //todo
-        actions.add("respond_faq");
-        for (int i = 0; i < faqVos.size(); i++) {
-            FAQVo faqVo = faqVos.get(i);
-            String problem = faqVo.getProblem();
-            List<String> similarProblems = faqVo.getSimilarProblems();
-            if (null == similarProblems || similarProblems.isEmpty()) {
-                similarProblems = new ArrayList<>();
-            }
-            similarProblems.add(problem);
-            String answer = faqVo.getAnswer();
-            intentMap.put("faq/problem" + i, similarProblems);
-            utterMap.put("utter_faq/problem" + i, answer);
-        }
-        nluConfig.setIntentMap(intentMap);
-        responsesConfig.setUtterMap(utterMap);
-        config.setNluConfig(nluConfig);
-        config.setResponsesConfig(responsesConfig);
-        config.setStoriesConfig(storiesConfig);
-        config.setRulesConfig(rulesConfig);
-        config.setDomainConfig(domainConfig);
-        return config;
+
+        //写入rasa配置文件
+        //this.写入
     }
 
 

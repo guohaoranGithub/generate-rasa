@@ -1,6 +1,5 @@
 package com.miplus.generaterasa.config;
 
-import com.miplus.generaterasa.constant.BotTypeEnum;
 import lombok.Data;
 
 /**
@@ -8,10 +7,6 @@ import lombok.Data;
  */
 @Data
 public class BotConfig {
-    /**
-     * 类型
-     */
-    private BotTypeEnum botType;
     /**
      * 机器人项目的目录路径
      */

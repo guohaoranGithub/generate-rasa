@@ -15,13 +15,14 @@ public class DefaultConfigure {
         INTENTS.put("greet", "src/main/resources/data/nlu/greet_intent.txt");
     }
 
-    public static Map<String, String> FAQ_RESPONSES_UTTER = null;
+    public static Map<String, String> RESPONSES_UTTER = null;
 
     static {
-        FAQ_RESPONSES_UTTER = new LinkedHashMap<>();
-        FAQ_RESPONSES_UTTER.put("utter_greet", "您好，我是FAQ机器人");
-        FAQ_RESPONSES_UTTER.put("utter_goodbye", "再见！");
-        FAQ_RESPONSES_UTTER.put("utter_default", "我不明白您的话");
+        RESPONSES_UTTER = new LinkedHashMap<>();
+        RESPONSES_UTTER.put("utter_goodbye", "再见！");
+        RESPONSES_UTTER.put("utter_greet", "您好，我是基于rasa的机器人，您可以向我提问问题");
+        RESPONSES_UTTER.put("utter_default", "我不明白您的话");
+        RESPONSES_UTTER.put("utter_ask_rephrase", "抱歉没听懂，请您重新表述");
     }
 
 
