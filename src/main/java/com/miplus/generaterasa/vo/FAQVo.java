@@ -12,19 +12,14 @@ public class FAQVo {
     /**
      * 问题
      */
-    private String problem;
+    private List<String> problem;
     /**
      * 答案
      */
     private String answer;
-    /**
-     * 相似问题
-     */
-    private List<String> similarProblems;
 
-    public FAQVo(String problem, String answer, List<String> similarProblems) {
+    public FAQVo(List<String> problem, String answer) {
         this.problem = problem;
         this.answer = answer;
-        this.similarProblems = similarProblems;
     }
 }

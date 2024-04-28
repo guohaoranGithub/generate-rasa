@@ -3,12 +3,8 @@ package com.miplus.generaterasa.writer;
 import com.miplus.generaterasa.config.*;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * 负责机器人配置文件的写入
@@ -16,6 +12,107 @@ import java.util.Map;
 @Component
 public class BotConfigWriter {
 
+    /**
+     * 加入新的意图和样本
+     *
+     * @param filePath
+     * @param newData
+     */
+    public void appendToNLUFile(String filePath, List<Map<String, Object>> newData) {
+        filePath = filePath + "/data/nlu.yml";
+        // 读取现有的 nlu.yml 文件内容
+        List<String> lines = this.readFile(filePath);
+        // 将新的意图和样本数据添加到现有数据中
+        this.insertNewDataToNlu(lines, newData);
+        // 将更新后的数据写回 nlu.yml 文件
+        this.write(filePath, lines);
+    }
+
+    /**
+     * 读取文件内容，把每行数据顺序加到list的元素里
+     *
+     * @param filePath
+     * @return
+     */
+    private List<String> readFile(String filePath) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    /**
+     * 给nlu添加新的意图和样本数据
+     *
+     * @param lines
+     * @param newData
+     */
+    private void insertNewDataToNlu(List<String> lines, List<Map<String, Object>> newData) {
+        // 找到 examples 字段所在的行
+        int lastExampleLineIndex = -1;
+        for (int i = lines.size() - 1; i >= 0; i--) {
+            String line = lines.get(i);
+            if (line.trim().startsWith("examples:")) {
+                lastExampleLineIndex = i;
+                break;
+            }
+        }
+        if (lastExampleLineIndex != -1) {
+            // 找到 examples 字段的最后一个样本的行
+            int lastSampleLineIndex = -1;
+            for (int i = lastExampleLineIndex + 1; i < lines.size(); i++) {
+                String line = lines.get(i);
+                if (!line.trim().isEmpty()) {
+                    lastSampleLineIndex = i;
+                }
+            }
+            // 拼接新样本
+            if (lastSampleLineIndex != -1) {
+                int num = lastSampleLineIndex;
+                for (Map<String, Object> map : newData) {
+                    String intent = (String) map.get("intent");
+                    List<String> examples = (List<String>) map.get("examples");
+                    num++;
+                    lines.add(num, "  - intent: " + intent + num);
+                    num++;
+                    lines.add(num, "    examples: |");
+                    for (String example : examples) {
+                        num++;
+                        lines.add(num, "      - " + example);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 将list数据顺序写到文件里
+     *
+     * @param filePath
+     * @param lines
+     */
+    private void write(String filePath, List<String> lines) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : lines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 写入默认的rasa配置信息
+     *
+     * @param botConfig
+     */
     public void writeDefaultBotConfig(BotConfig botConfig) {
         //项目根路径
         String projectDirectory = botConfig.getProjectDirectory();
@@ -60,10 +157,22 @@ public class BotConfigWriter {
         this.write(responsesContent, responsesPath);
     }
 
+    /**
+     * 默认的responses配置
+     *
+     * @param botConfig
+     * @return
+     */
     private String getResponsesContent(BotConfig botConfig) {
         return "version: \"3.0\"\n";
     }
 
+    /**
+     * 默认的nlu配置
+     *
+     * @param config
+     * @return
+     */
     public String getNluContent(BotConfig config) {
         NluConfig nluConfig = config.getNluConfig();
         HashMap<String, List<String>> intentMap = nluConfig.getIntentMap();
@@ -87,6 +196,12 @@ public class BotConfigWriter {
         return resultBuilder.toString();
     }
 
+    /**
+     * 默认的stories配置
+     *
+     * @param config
+     * @return
+     */
     public String getStoriesContent(BotConfig config) {
         StoriesConfig storiesConfig = config.getStoriesConfig();
         LinkedHashMap<String, String> stepsMap = storiesConfig.getStepsMap();
@@ -107,6 +222,12 @@ public class BotConfigWriter {
         return resultBuilder.toString();
     }
 
+    /**
+     * 默认的rules配置
+     *
+     * @param config
+     * @return
+     */
     public String getRulesContent(BotConfig config) {
         RulesConfig rulesConfig = config.getRulesConfig();
         LinkedHashMap<String, String> stepsMap = rulesConfig.getStepsMap();
@@ -126,6 +247,12 @@ public class BotConfigWriter {
         return resultBuilder.toString();
     }
 
+    /**
+     * 默认的domain配置
+     *
+     * @param config
+     * @return
+     */
     public String getDomainContent(BotConfig config) {
         DomainConfig domainConfig = config.getDomainConfig();
 
@@ -190,6 +317,12 @@ public class BotConfigWriter {
                 "    enable_fallback_prediction: True\n";
     }
 
+    /**
+     * 默认的endpoints配置
+     *
+     * @param config
+     * @return
+     */
     public String getEndpointsContent(BotConfig config) {
         return "# This file contains the different endpoints your bot can use.\n\n" +
                 "# Server where the models are pulled from.\n" +
@@ -225,6 +358,12 @@ public class BotConfigWriter {
                 "#  queue: queue\n";
     }
 
+    /**
+     * 默认的credentials配置
+     *
+     * @param config
+     * @return
+     */
     public String getCredentialsContent(BotConfig config) {
         return "# This file contains the credentials for the voice & chat platforms\n" +
                 "# which your bot is using.\n" +
@@ -247,6 +386,12 @@ public class BotConfigWriter {
                 "  url: \"http://localhost:5002/api\"";
     }
 
+    /**
+     * 写入配置文件
+     *
+     * @param content
+     * @param filePath
+     */
     private void write(String content, String filePath) {
         try {
             FileWriter writer = new FileWriter(filePath);
