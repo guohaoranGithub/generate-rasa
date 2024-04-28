@@ -3,9 +3,14 @@ package com.miplus.generaterasa.service;
 import com.miplus.generaterasa.param.BindFAQParam;
 import com.miplus.generaterasa.vo.FAQVo;
 import com.miplus.generaterasa.writer.BotConfigWriter;
+import com.miplus.generaterasa.writer.NluConfigWriter;
+import com.miplus.generaterasa.writer.ResponsesConfigWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -15,7 +20,10 @@ import java.util.*;
 public class FAQService extends BotService {
 
     @Autowired
-    private BotConfigWriter botConfigWriter;
+    private NluConfigWriter nluConfigWriter;
+
+    @Autowired
+    private ResponsesConfigWriter responsesConfigWriter;
 
     /**
      * 给机器人绑定FAQ数据
@@ -41,17 +49,51 @@ public class FAQService extends BotService {
                                 "3、面试审核：经过实施评价应聘者基本素质的第一阶段面试和评价专业知识的第二阶段面试，" +
                                 "对应聘者是否符合ACME人才理念以及应聘者的工作能力做出客观的综合评价，从而决定是否录用该应聘者。"));
 
-        //写入nlu文件
-        List<Map<String, Object>> newData = new ArrayList<>();
+        List<Map<String, Object>> newNluDataList = new ArrayList<>();
+        List<Map<String, String>> newResponsesDataList = new ArrayList<>();
         for (int i = 0; i < faqVos.size(); i++) {
             FAQVo faqVo = faqVos.get(i);
             // 添加新的意图和样本数据
             LinkedHashMap<String, Object> newIntentData = new LinkedHashMap<>();
-            List<String> problem = faqVo.getProblem();
-            newIntentData.put("intent", "faq/problem");
-            newIntentData.put("examples", problem);
-            newData.add(newIntentData);
+            List<String> problems = faqVo.getProblem();
+            String problem = this.generateIntentName(problems.get(0));
+            newIntentData.put("intent", "faq/" + problem);
+            newIntentData.put("examples", problems);
+            newNluDataList.add(newIntentData);
+            //添加结果数据
+            LinkedHashMap<String, String> newResponsesDataMap = new LinkedHashMap<>();
+            newResponsesDataMap.put("utter", "utter_faq/" + problem);
+            newResponsesDataMap.put("text", faqVo.getAnswer());
+            newResponsesDataList.add(newResponsesDataMap);
         }
-        botConfigWriter.appendToNLUFile(param.getBotPath(), newData);
+        //写入nlu
+        nluConfigWriter.appendToNLUFile(param.getBotPath(), newNluDataList);
+
+        //写入responses
+        responsesConfigWriter.appendToResponseFile(param.getBotPath(), newResponsesDataList);
+    }
+
+    /**
+     * 生成意图不重复意图名
+     *
+     * @param question
+     * @return
+     */
+    public String generateIntentName(String question) {
+        try {
+            // 创建 MessageDigest 对象
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            // 对问题内容进行哈希运算
+            md.update(question.getBytes());
+            // 获取哈希值
+            byte[] digest = md.digest();
+            // 将哈希值转换为正数
+            BigInteger bigInt = new BigInteger(1, digest);
+            // 将哈希值转换为字符串作为意图名称
+            return bigInt.toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

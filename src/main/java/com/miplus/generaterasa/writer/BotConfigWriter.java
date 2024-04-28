@@ -13,28 +13,12 @@ import java.util.*;
 public class BotConfigWriter {
 
     /**
-     * 加入新的意图和样本
-     *
-     * @param filePath
-     * @param newData
-     */
-    public void appendToNLUFile(String filePath, List<Map<String, Object>> newData) {
-        filePath = filePath + "/data/nlu.yml";
-        // 读取现有的 nlu.yml 文件内容
-        List<String> lines = this.readFile(filePath);
-        // 将新的意图和样本数据添加到现有数据中
-        this.insertNewDataToNlu(lines, newData);
-        // 将更新后的数据写回 nlu.yml 文件
-        this.write(filePath, lines);
-    }
-
-    /**
      * 读取文件内容，把每行数据顺序加到list的元素里
      *
      * @param filePath
      * @return
      */
-    private List<String> readFile(String filePath) {
+    public List<String> readFile(String filePath) {
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -47,49 +31,7 @@ public class BotConfigWriter {
         return lines;
     }
 
-    /**
-     * 给nlu添加新的意图和样本数据
-     *
-     * @param lines
-     * @param newData
-     */
-    private void insertNewDataToNlu(List<String> lines, List<Map<String, Object>> newData) {
-        // 找到 examples 字段所在的行
-        int lastExampleLineIndex = -1;
-        for (int i = lines.size() - 1; i >= 0; i--) {
-            String line = lines.get(i);
-            if (line.trim().startsWith("examples:")) {
-                lastExampleLineIndex = i;
-                break;
-            }
-        }
-        if (lastExampleLineIndex != -1) {
-            // 找到 examples 字段的最后一个样本的行
-            int lastSampleLineIndex = -1;
-            for (int i = lastExampleLineIndex + 1; i < lines.size(); i++) {
-                String line = lines.get(i);
-                if (!line.trim().isEmpty()) {
-                    lastSampleLineIndex = i;
-                }
-            }
-            // 拼接新样本
-            if (lastSampleLineIndex != -1) {
-                int num = lastSampleLineIndex;
-                for (Map<String, Object> map : newData) {
-                    String intent = (String) map.get("intent");
-                    List<String> examples = (List<String>) map.get("examples");
-                    num++;
-                    lines.add(num, "  - intent: " + intent + num);
-                    num++;
-                    lines.add(num, "    examples: |");
-                    for (String example : examples) {
-                        num++;
-                        lines.add(num, "      - " + example);
-                    }
-                }
-            }
-        }
-    }
+
 
     /**
      * 将list数据顺序写到文件里
@@ -97,12 +39,28 @@ public class BotConfigWriter {
      * @param filePath
      * @param lines
      */
-    private void write(String filePath, List<String> lines) {
+    public void write(String filePath, List<String> lines) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (String line : lines) {
                 writer.write(line);
                 writer.newLine();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 写入配置文件
+     *
+     * @param content
+     * @param filePath
+     */
+    public void write(String content, String filePath) {
+        try {
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(content);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,7 +122,8 @@ public class BotConfigWriter {
      * @return
      */
     private String getResponsesContent(BotConfig botConfig) {
-        return "version: \"3.0\"\n";
+        return "version: \"3.0\"\n" +
+                "responses:";
     }
 
     /**
@@ -384,21 +343,5 @@ public class BotConfigWriter {
                 "  session_persistence: false\n\n" +
                 "rasa:\n" +
                 "  url: \"http://localhost:5002/api\"";
-    }
-
-    /**
-     * 写入配置文件
-     *
-     * @param content
-     * @param filePath
-     */
-    private void write(String content, String filePath) {
-        try {
-            FileWriter writer = new FileWriter(filePath);
-            writer.write(content);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
