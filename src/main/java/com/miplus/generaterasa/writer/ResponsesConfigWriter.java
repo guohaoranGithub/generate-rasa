@@ -31,6 +31,9 @@ public class ResponsesConfigWriter extends BotConfigWriter {
         for (Map<String, String> map : newData) {
             String utter = map.get("utter");
             String text = map.get("text");
+            if(lines.contains("  " + utter + ":")) {
+                continue;
+            }
             lines.add("  " + utter + ":");
             lines.add("    - text: " + text);
         }

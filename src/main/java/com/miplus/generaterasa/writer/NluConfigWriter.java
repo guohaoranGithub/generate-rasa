@@ -9,7 +9,7 @@ import java.util.Map;
  * nlu配置写入类
  */
 @Component
-public class NluConfigWriter extends BotConfigWriter{
+public class NluConfigWriter extends BotConfigWriter {
     /**
      * 加入新的意图和样本
      *
@@ -47,7 +47,9 @@ public class NluConfigWriter extends BotConfigWriter{
             int lastSampleLineIndex = -1;
             for (int i = lastExampleLineIndex + 1; i < lines.size(); i++) {
                 String line = lines.get(i);
-                if (!line.trim().isEmpty()) {
+                if (!line.startsWith("      - ")) {
+                    break;
+                } else {
                     lastSampleLineIndex = i;
                 }
             }
@@ -57,6 +59,9 @@ public class NluConfigWriter extends BotConfigWriter{
                 for (Map<String, Object> map : newData) {
                     String intent = (String) map.get("intent");
                     List<String> examples = (List<String>) map.get("examples");
+                    if (lines.contains("  - intent: " + intent)) {
+                        continue;
+                    }
                     num++;
                     lines.add(num, "  - intent: " + intent);
                     num++;

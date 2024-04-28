@@ -2,9 +2,10 @@ package com.miplus.generaterasa.service;
 
 import com.miplus.generaterasa.param.BindFAQParam;
 import com.miplus.generaterasa.vo.FAQVo;
-import com.miplus.generaterasa.writer.BotConfigWriter;
+import com.miplus.generaterasa.writer.DomainConfigWriter;
 import com.miplus.generaterasa.writer.NluConfigWriter;
 import com.miplus.generaterasa.writer.ResponsesConfigWriter;
+import com.miplus.generaterasa.writer.RulesConfigWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,12 @@ public class FAQService extends BotService {
 
     @Autowired
     private NluConfigWriter nluConfigWriter;
-
     @Autowired
     private ResponsesConfigWriter responsesConfigWriter;
+    @Autowired
+    private RulesConfigWriter rulesConfigWriter;
+    @Autowired
+    private DomainConfigWriter domainConfigWriter;
 
     /**
      * 给机器人绑定FAQ数据
@@ -41,6 +45,7 @@ public class FAQService extends BotService {
                                 "3、提交成功后，在招聘结束前，您将不能修改或再次提交简历，因此，请于仔细确认填写信息后提交简历。"),
                 new FAQVo(Collections.singletonList("校园招聘录取的应届生主要工作地点在哪里?"),
                         "招聘信息中包含各职位的工作地点内容，请参考各职位内容的详细介绍。"),
+                new FAQVo(Collections.singletonList("如何查询面试结果?"), "我们会通过邮件或电话的形式，通知您面试结果。"),
                 new FAQVo(Arrays.asList("各阶段审核说明", "审核说明"),
                         "1、简历审核：应聘者需要通过ACME网站，填写并提交个人简历，" +
                                 "ACME的招聘专员将对收取的简历进行认真的审查和筛选。" +
@@ -51,6 +56,8 @@ public class FAQService extends BotService {
 
         List<Map<String, Object>> newNluDataList = new ArrayList<>();
         List<Map<String, String>> newResponsesDataList = new ArrayList<>();
+        List<Map<String, Object>> newRulesDataList = new ArrayList<>();
+        Map<String, Object> newDomainDataMap = new LinkedHashMap<>();
         for (int i = 0; i < faqVos.size(); i++) {
             FAQVo faqVo = faqVos.get(i);
             // 添加新的意图和样本数据
@@ -68,9 +75,22 @@ public class FAQService extends BotService {
         }
         //写入nlu
         nluConfigWriter.appendToNLUFile(param.getBotPath(), newNluDataList);
-
         //写入responses
         responsesConfigWriter.appendToResponseFile(param.getBotPath(), newResponsesDataList);
+        //写入rules
+        //添加规则数据
+        LinkedHashMap<String, Object> newRulesDataMap = new LinkedHashMap<>();
+        newRulesDataMap.put("rule", "respond to FAQs");
+        LinkedHashMap<String, String> stepsMap = new LinkedHashMap<>();
+        stepsMap.put("intent", "faq");
+        stepsMap.put("action", "utter_faq");
+        newRulesDataMap.put("steps", stepsMap);
+        newRulesDataList.add(newRulesDataMap);
+        rulesConfigWriter.appendToRulesFile(param.getBotPath(), newRulesDataList);
+        //添加domain数据
+        newDomainDataMap.put("intents", Collections.singletonList("faq"));
+        newDomainDataMap.put("actions", Collections.singletonList("respond_faq"));
+        domainConfigWriter.appendToDomainFile(param.getBotPath(), newDomainDataMap);
     }
 
     /**
