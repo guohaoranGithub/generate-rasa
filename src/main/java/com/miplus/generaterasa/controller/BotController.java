@@ -40,4 +40,7 @@ public class BotController {
     public void bindFAQ(@RequestBody BindFAQParam param) {
         faqService.bindData(param);
     }
+
+//    @PostMapping("/bindChitchat")
+
 }

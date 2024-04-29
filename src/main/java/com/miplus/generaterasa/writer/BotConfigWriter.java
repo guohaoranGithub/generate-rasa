@@ -265,6 +265,11 @@ public class BotConfigWriter {
                 "    threshold: 0.3\n" +
                 "    ambiguity_threshold: 0.1\n" +
                 "  - name: ResponseSelector\n\n" +
+                "    epochs: 100\n"+
+                "    retrieval_intent: faq\n"+
+                "  - name: ResponseSelector\n\n" +
+                "    epochs: 100\n"+
+                "    retrieval_intent: chitchat\n"+
                 "policies:\n" +
                 "  - name: MemoizationPolicy\n" +
                 "  - name: TEDPolicy\n" +
