@@ -24,19 +24,19 @@ public class BotController {
     /**
      * 创建机器人项目
      * 初始化项目结构，基础文件
+     *
      * @param param
      * @return
      */
     @PostMapping("/createBot")
     public String createBot(@RequestBody CreateBotParam param) {
-        String botId = param.getBotId();
-        String path = param.getPath();
-        String result = generator.generateBotProject(path + "/bot-" + botId);
+        String result = generator.generateBotProject(param);
         return "The robot project has been successfully created. Please go to the " + result + " directory to view it.";
     }
 
     /**
      * 绑定FAQ
+     *
      * @param param
      */
     @PostMapping("/bindFAQ")
@@ -46,6 +46,7 @@ public class BotController {
 
     /**
      * 绑定闲聊
+     *
      * @param param
      */
     @PostMapping("/bindChitchat")

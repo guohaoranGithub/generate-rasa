@@ -113,6 +113,11 @@ public class BotConfigWriter {
         String responsesContent = this.getResponsesContent(botConfig);
         String responsesPath = projectDirectory + "/data/" + "responses.yml";
         this.write(responsesContent, responsesPath);
+
+        //启动文件
+        String dockerContent = this.getDockerContent(botConfig);
+        String dockerPath = projectDirectory + "/docker-compose.yml";
+        this.write(dockerContent, dockerPath);
     }
 
     /**
@@ -123,7 +128,38 @@ public class BotConfigWriter {
      */
     private String getResponsesContent(BotConfig botConfig) {
         return "version: \"3.0\"\n" +
-                "responses:";
+                "#responses:";
+    }
+
+    /**
+     * docker
+     * @return
+     */
+    private String getDockerContent(BotConfig config) {
+
+        return "version: '3.0'\n"+
+                "services:\n"+
+                "  "+config.getBotName()+"_rasa_service:\n"+
+                "    image: rasa/rasa:3.0.13\n"+
+                "    ports:\n"+
+                "      - 5005:5005\n"+
+                "    volumes:\n"+
+                "      - ./:/app\n"+
+                "    command:\n"+
+                "      - run\n"+
+                "      - --enable-api\n"+
+                "    depends_on:\n"+
+                "      - action_server\n\n"+
+                "  "+config.getBotName()+"_action_server:\n"+
+                "    image: rasa/rasa:3.0.13\n"+
+                "    ports:\n"+
+                "      - 5055:5055\n"+
+                "    volumes:\n"+
+                "      - ./:/app\n"+
+                "    command:\n"+
+                "      - run\n"+
+                "      - actions"
+                ;
     }
 
     /**

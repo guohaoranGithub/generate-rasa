@@ -1,6 +1,8 @@
 package com.miplus.generaterasa.generator;
 
 import com.miplus.generaterasa.config.*;
+import com.miplus.generaterasa.param.CreateBotParam;
+import com.miplus.generaterasa.utils.BotManager;
 import com.miplus.generaterasa.utils.DirectoryStructurePrinter;
 import com.miplus.generaterasa.writer.BotConfigWriter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +25,28 @@ public class BotProjectGenerator {
     /**
      * 创建rasa项目
      *
-     * @param path path为绝对路径
+     * @param
      * @return
      */
-    public String generateBotProject(String path) {
+    public String generateBotProject(CreateBotParam param) {
+        String path = param.getBotPath();
         //初始化项目
         this.createProjectStructure(path);
         //初始化配置
         BotConfig defaultConfig = this.getDefaultConfig();
         defaultConfig.setProjectDirectory(path);
+        defaultConfig.setBotName(param.getBotId());
         botConfigWriter.writeDefaultBotConfig(defaultConfig);
+        Boolean train = param.getTrain();
+        Boolean run = param.getRun();
+        if(train) {
+            BotManager.trainRasaModel(path);
+        }
+        if(run) {
+            BotManager.runDockerCompose(path+ "/docker-compose.yml");
+            BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
+            BotManager.checkContainerStatus(param.getBotId() + "_action_server");
+        }
         return path;
     }
 
@@ -108,6 +122,9 @@ public class BotProjectGenerator {
         createFile(actionsFile);
         String initFile = actionsDirPath + "__init__.py";
         createFile(initFile);
+        //创建docker-compose.yml
+        String dockerComposeFile = path + "/docker-compose.yml";
+        createFile(dockerComposeFile);
         System.out.println("====================================Successfully created robot project directory====================================");
         //打印项目结构
         DirectoryStructurePrinter.printDirectoryStructure(projectDir);

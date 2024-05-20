@@ -2,6 +2,8 @@ package com.miplus.generaterasa.writer;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +29,12 @@ public class ResponsesConfigWriter extends BotConfigWriter {
     }
 
     private void insertNewData(List<String> lines, List<Map<String, Object>> newData) {
+        for (int i = 0; i < lines.size(); i++) {
+            String item = lines.get(i);
+            if (item.trim().equals("#responses:")) {
+                lines.set(i, "responses:");
+            }
+        }
         // 直接在末尾行加
         for (Map<String, Object> map : newData) {
             String utter = (String) map.get("utter");

@@ -1,6 +1,7 @@
 package com.miplus.generaterasa.service;
 
 import com.miplus.generaterasa.param.BindFAQParam;
+import com.miplus.generaterasa.utils.BotManager;
 import com.miplus.generaterasa.vo.ChitchatVo;
 import com.miplus.generaterasa.writer.DomainConfigWriter;
 import com.miplus.generaterasa.writer.NluConfigWriter;
@@ -71,5 +72,16 @@ public class ChitchatService extends BotService{
         newDomainDataMap.put("intents", Collections.singletonList("chitchat"));
         newDomainDataMap.put("actions", Collections.singletonList("respond_chitchat"));
         domainConfigWriter.appendToDomainFile(param.getBotPath(), newDomainDataMap);
+
+        Boolean train = param.getTrain();
+        Boolean run = param.getRun();
+        if(train) {
+            BotManager.trainRasaModel(param.getBotPath());
+        }
+        if(run) {
+            BotManager.runDockerCompose(param.getBotPath()+ "/docker-compose.yml");
+            BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
+            BotManager.checkContainerStatus(param.getBotId() + "_action_server");
+        }
     }
 }

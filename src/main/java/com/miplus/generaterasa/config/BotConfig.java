@@ -32,4 +32,9 @@ public class BotConfig {
      */
     private DomainConfig domainConfig;
 
+    /**
+     * 机器人名称
+     */
+    private String botName;
+
 }
