@@ -16,7 +16,7 @@ public class ResponsesConfigWriter extends BotConfigWriter {
      * @param filePath
      * @param newData
      */
-    public void appendToResponseFile(String filePath, List<Map<String, String>> newData) {
+    public void appendToResponseFile(String filePath, List<Map<String, Object>> newData) {
         filePath = filePath + "/data/responses.yml";
         // 读取现有的 nlu.yml 文件内容
         List<String> lines = this.readFile(filePath);
@@ -26,16 +26,18 @@ public class ResponsesConfigWriter extends BotConfigWriter {
         this.write(filePath, lines);
     }
 
-    private void insertNewData(List<String> lines, List<Map<String, String>> newData) {
+    private void insertNewData(List<String> lines, List<Map<String, Object>> newData) {
         // 直接在末尾行加
-        for (Map<String, String> map : newData) {
-            String utter = map.get("utter");
-            String text = map.get("text");
+        for (Map<String, Object> map : newData) {
+            String utter = (String) map.get("utter");
+            List<String> texts = (List<String>) map.get("text");
             if(lines.contains("  " + utter + ":")) {
                 continue;
             }
             lines.add("  " + utter + ":");
-            lines.add("    - text: " + text);
+            for (String text : texts) {
+                lines.add("    - text: " + text);
+            }
         }
     }
 }

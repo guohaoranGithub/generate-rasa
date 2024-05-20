@@ -3,6 +3,7 @@ package com.miplus.generaterasa.controller;
 import com.miplus.generaterasa.generator.BotProjectGenerator;
 import com.miplus.generaterasa.param.BindFAQParam;
 import com.miplus.generaterasa.param.CreateBotParam;
+import com.miplus.generaterasa.service.ChitchatService;
 import com.miplus.generaterasa.service.FAQService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,8 @@ public class BotController {
     private BotProjectGenerator generator;
     @Autowired
     private FAQService faqService;
+    @Autowired
+    private ChitchatService chitchatService;
 
     /**
      * 创建机器人项目
@@ -41,6 +44,12 @@ public class BotController {
         faqService.bindData(param);
     }
 
-//    @PostMapping("/bindChitchat")
-
+    /**
+     * 绑定闲聊
+     * @param param
+     */
+    @PostMapping("/bindChitchat")
+    public void bindChitchat(@RequestBody BindFAQParam param) {
+        chitchatService.bindData(param);
+    }
 }

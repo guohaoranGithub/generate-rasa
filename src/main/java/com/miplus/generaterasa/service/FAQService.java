@@ -9,9 +9,6 @@ import com.miplus.generaterasa.writer.RulesConfigWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -35,7 +32,7 @@ public class FAQService extends BotService {
      * @param param
      */
     public void bindData(BindFAQParam param) {
-        //查数据库......
+        //查数据库......todo 未来可以把数据库数据通过参数传过来
         List<FAQVo> faqVos = Arrays.asList(
                 new FAQVo(Collections.singletonList("应聘ACME校园招聘职位的注意事项?"),
                         "1、登在校园招聘板块内的职位信息才适用于应届毕业生招聘，" +
@@ -55,7 +52,7 @@ public class FAQService extends BotService {
                                 "对应聘者是否符合ACME人才理念以及应聘者的工作能力做出客观的综合评价，从而决定是否录用该应聘者。"));
 
         List<Map<String, Object>> newNluDataList = new ArrayList<>();
-        List<Map<String, String>> newResponsesDataList = new ArrayList<>();
+        List<Map<String, Object>> newResponsesDataList = new ArrayList<>();
         List<Map<String, Object>> newRulesDataList = new ArrayList<>();
         Map<String, Object> newDomainDataMap = new LinkedHashMap<>();
         for (int i = 0; i < faqVos.size(); i++) {
@@ -68,9 +65,9 @@ public class FAQService extends BotService {
             newIntentData.put("examples", problems);
             newNluDataList.add(newIntentData);
             //添加结果数据
-            LinkedHashMap<String, String> newResponsesDataMap = new LinkedHashMap<>();
+            LinkedHashMap<String, Object> newResponsesDataMap = new LinkedHashMap<>();
             newResponsesDataMap.put("utter", "utter_faq/" + problem);
-            newResponsesDataMap.put("text", faqVo.getAnswer());
+            newResponsesDataMap.put("text", Collections.singletonList(faqVo.getAnswer()));
             newResponsesDataList.add(newResponsesDataMap);
         }
         //写入nlu
@@ -91,29 +88,5 @@ public class FAQService extends BotService {
         newDomainDataMap.put("intents", Collections.singletonList("faq"));
         newDomainDataMap.put("actions", Collections.singletonList("respond_faq"));
         domainConfigWriter.appendToDomainFile(param.getBotPath(), newDomainDataMap);
-    }
-
-    /**
-     * 生成意图不重复意图名
-     *
-     * @param question
-     * @return
-     */
-    public String generateIntentName(String question) {
-        try {
-            // 创建 MessageDigest 对象
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            // 对问题内容进行哈希运算
-            md.update(question.getBytes());
-            // 获取哈希值
-            byte[] digest = md.digest();
-            // 将哈希值转换为正数
-            BigInteger bigInt = new BigInteger(1, digest);
-            // 将哈希值转换为字符串作为意图名称
-            return bigInt.toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }
