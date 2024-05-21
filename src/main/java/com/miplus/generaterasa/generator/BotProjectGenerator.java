@@ -125,6 +125,9 @@ public class BotProjectGenerator {
         //创建docker-compose.yml
         String dockerComposeFile = path + "/docker-compose.yml";
         createFile(dockerComposeFile);
+        //依赖文件
+        String requirementsFile = path + "/requirements.txt";
+        createFile(requirementsFile);
         System.out.println("====================================Successfully created robot project directory====================================");
         //打印项目结构
         DirectoryStructurePrinter.printDirectoryStructure(projectDir);

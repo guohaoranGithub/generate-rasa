@@ -114,6 +114,11 @@ public class BotConfigWriter {
         String responsesPath = projectDirectory + "/data/" + "responses.yml";
         this.write(responsesContent, responsesPath);
 
+        //requirements.txt
+        String requirementsContent = this.getRequirementsContent();
+        String rePath = projectDirectory + "/requirements.txt";
+        this.write(requirementsContent, rePath);
+
         //启动文件
         String dockerContent = this.getDockerContent(botConfig);
         String dockerPath = projectDirectory + "/docker-compose.yml";
@@ -131,6 +136,191 @@ public class BotConfigWriter {
                 "#responses:";
     }
 
+    private String getRequirementsContent() {
+        return "absl-py==0.13.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aio-pika==6.8.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aiofiles==22.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aiogram==2.25.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aiohttp==3.7.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aiormq==3.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "aiosignal==1.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "APScheduler==3.7.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "astunparse==1.6.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "async-generator==1.10 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "async-timeout==3.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "attrs==21.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Babel==2.9.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "bidict==0.22.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "boto3==1.24.96 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "botocore==1.27.96 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "CacheControl==0.12.11 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cached-property==1.5.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cachetools==4.2.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "certifi==2022.9.24 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cffi==1.15.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "chardet==3.0.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "charset-normalizer==2.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "clang==5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cli-helpers==1.2.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "click==8.1.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cloudpickle==1.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "colorclass==2.2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "coloredlogs==15.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "colorhash==1.0.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "configobj==5.0.6 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "confluent-kafka==2.4.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cryptography==38.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "cycler==0.11.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "dask==2021.11.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "decorator==5.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "dm-tree==0.1.7 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "dnspython==1.16.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "docopt==0.6.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "fbmessenger==6.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "filelock==3.8.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "fire==0.4.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "flatbuffers==1.12 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "frozenlist==1.4.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n"+
+                "fsspec==2024.5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "future==0.18.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "gast==0.4.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "google-auth==1.35.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "google-auth-oauthlib==0.4.6 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "google-pasta==0.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "greenlet==1.1.3.post0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "grpcio==1.50.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "h5py==3.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "httptools==0.5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "huggingface-hub==0.23.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "humanfriendly==10.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "idna==3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "importlib-metadata==5.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "iniconfig==1.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "jieba==0.42.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "jmespath==1.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "joblib==1.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "jsonpickle==2.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "jsonschema==3.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "kafka-python==2.0.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "keras==2.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Keras-Preprocessing==1.1.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "kiwisolver==1.4.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "libclang==18.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "locket==1.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "magic-filter==1.0.12 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Markdown==3.4.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "MarkupSafe==2.1.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "matplotlib==3.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "mattermostwrapper==2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "MicroHMM==0.4.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "MicroTokenizer==0.21.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "msgpack==1.0.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "multidict==6.0.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "mycli==1.20.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "neo4j==4.4.8 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "networkx==2.6.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "numpy==1.19.5 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "oauthlib==3.2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "opt-einsum==3.3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "packaging==20.9 -i https://pypi.tuna.tsinghua.edu.cn/simple\n"+
+                "pamqp==2.3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "partd==1.3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Pillow==9.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pluggy==1.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "portalocker==2.8.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "prompt-toolkit==2.0.10 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "protobuf==3.19.6 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "psycopg2-binary==2.9.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "py==1.11.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pyasn1==0.4.8 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pyasn1-modules==0.2.8 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pycparser==2.21 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pydantic==1.10.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pydot==1.4.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Pygments==2.6.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "PyJWT==2.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pykwalify==1.8.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pymongo==3.10.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "PyMySQL==0.9.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pyparsing==3.0.9 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pyrsistent==0.18.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pyTelegramBotAPI==3.8.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pytest==7.1.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "python-crfsuite==0.9.8 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "python-dateutil==2.8.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "python-engineio==4.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "python-socketio==5.7.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "pytz==2021.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "PyYAML==6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "questionary==1.10.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "randomname==0.1.5 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "rasa==3.0.13 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "rasa-sdk==3.0.7 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "redis==3.5.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "regex==2021.8.28 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "requests==2.28.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "requests-oauthlib==1.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n"+
+                "requests-toolbelt==0.10.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "rocketchat-API==1.16.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "rsa==4.9 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "ruamel.yaml==0.16.13 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "ruamel.yaml.clib==0.2.7 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "s3transfer==0.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sacremoses==0.0.53 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "safetensors==0.4.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sanic==21.12.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Sanic-Cors==2.2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sanic-jwt==1.8.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sanic-routing==0.7.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "scikit-learn==0.24.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "scipy==1.7.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sentencepiece==0.1.97 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sentry-sdk==1.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "six==1.16.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sklearn-crfsuite==0.3.6 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "slack_sdk==3.27.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "slackclient==2.9.4 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "SQLAlchemy==1.4.42 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "sqlparse==0.3.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "structlog==23.3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "structlog-sentry==2.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tabulate==0.9.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tarsafe==0.0.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorboard==2.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorboard-data-server==0.6.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorboard-plugin-wit==1.8.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow==2.6.5 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-addons==0.14.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-estimator==2.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-hub==0.12.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-io-gcs-filesystem==0.34.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-probability==0.13.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tensorflow-text==2.6.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "termcolor==1.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "terminaltables==3.1.10 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "threadpoolctl==3.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tokenizers==0.19.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tomli==2.0.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "toolz==0.12.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tqdm==4.64.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n"+
+                "transformers==4.40.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "twilio==6.50.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "typeguard==2.13.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "typing-extensions==3.10.0.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "typing-utils==0.1.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "tzlocal==2.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "ujson==5.5.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "urllib3==1.26.12 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "uvloop==0.17.0 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "wcwidth==0.2.5 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "webexteamssdk==1.6.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "websockets==10.3 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "Werkzeug==2.2.2 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "wrapt==1.12.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "yarl==1.8.1 -i https://pypi.tuna.tsinghua.edu.cn/simple\n" +
+                "zipp==3.9.0 -i https://pypi.tuna.tsinghua.edu.cn/simple";
+    }
+
     /**
      * docker
      * @return
@@ -145,9 +335,7 @@ public class BotConfigWriter {
                 "      - 5005:5005\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    command:\n"+
-                "      - run\n"+
-                "      - --enable-api\n"+
+                "    entrypoint: sh -c \"pip3 install --no-deps -r /app/requirements.txt && rasa run --enable-api\"\n"+
                 "    depends_on:\n"+
                 "      - "+config.getBotName()+"_action_server\n\n"+
                 "  "+config.getBotName()+"_action_server:\n"+
@@ -156,9 +344,7 @@ public class BotConfigWriter {
                 "      - 5055:5055\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    command:\n"+
-                "      - run\n"+
-                "      - actions"
+                "    entrypoint: sh -c \"pip3 install --no-deps -r /app/requirements.txt && rasa run actions\""
                 ;
     }
 
