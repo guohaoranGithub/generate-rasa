@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 public class BotManager {
@@ -44,10 +45,14 @@ public class BotManager {
      * @param composeFilePath
      */
     public static void runDockerCompose(String composeFilePath) {
-        //docker compose -f /bot/j7dinrasd-5dx/docker-compose.yml up -d
-        ProcessBuilder processBuilder = new ProcessBuilder("docker compose", "-f", composeFilePath, "up", "-d");
+        // docker compose -f /bot/j7dinrasd-5dx/docker-compose.yml up -d
+        List<String> command = Arrays.asList("docker", "compose", "-f", composeFilePath, "up", "-d");
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(new File(composeFilePath).getParentFile());
         processBuilder.redirectErrorStream(true);
+
+        // 打印命令
+        System.out.println("Running command: " + String.join(" ", command));
         try {
             Process process = processBuilder.start();
             new Thread(() -> {
