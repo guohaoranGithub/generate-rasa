@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ChitchatService extends BotService{
+public class ChitchatService extends BotService {
     @Autowired
     private NluConfigWriter nluConfigWriter;
     @Autowired
@@ -30,10 +30,10 @@ public class ChitchatService extends BotService{
      */
     public void bindData(BindFAQParam param) {
         //查数据库......todo 未来可以把数据库数据通过参数传过来
-        List<ChitchatVo> chitchatVos = Arrays.asList(new ChitchatVo(Arrays.asList("你的名字叫什么","可以告诉你的名字吗?","大家都叫你什么?"),
-                Arrays.asList("我是基于rasa的机器人","我叫小白")),
-                new ChitchatVo(Arrays.asList("你能做什么","你的能力是什么","我可以问你任何问题吗"),
-                        Arrays.asList("我无所不知","你可以向我提出问题")));
+        List<ChitchatVo> chitchatVos = Arrays.asList(new ChitchatVo(Arrays.asList("你的名字叫什么", "可以告诉你的名字吗?", "大家都叫你什么?"),
+                        Arrays.asList("我是基于rasa的机器人", "我叫小白")),
+                new ChitchatVo(Arrays.asList("你能做什么", "你的能力是什么", "我可以问你任何问题吗"),
+                        Arrays.asList("我无所不知", "你可以向我提出问题")));
 
         List<Map<String, Object>> newNluDataList = new ArrayList<>();
         List<Map<String, Object>> newResponsesDataList = new ArrayList<>();
@@ -75,11 +75,11 @@ public class ChitchatService extends BotService{
 
         Boolean train = param.getTrain();
         Boolean run = param.getRun();
-        if(train) {
+        if (train) {
             BotManager.trainRasaModel(param.getBotPath());
         }
-        if(run) {
-            BotManager.runDockerCompose(param.getBotPath()+ "/docker-compose.yml");
+        if (run) {
+            BotManager.runDockerCompose(param.getBotPath(), param.getBotPath() + "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
             BotManager.checkContainerStatus(param.getBotId() + "_action_server");
         }

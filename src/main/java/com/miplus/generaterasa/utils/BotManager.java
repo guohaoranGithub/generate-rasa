@@ -44,13 +44,16 @@ public class BotManager {
      *
      * @param composeFilePath
      */
-    public static void runDockerCompose(String composeFilePath) {
+    public static void runDockerCompose(String rasaProjectPath, String composeFilePath) {
         // docker compose -f /bot/j7dinrasd-5dx/docker-compose.yml up -d
         List<String> command = Arrays.asList("docker", "compose", "-f", composeFilePath, "up", "-d");
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         processBuilder.directory(new File(composeFilePath).getParentFile());
         processBuilder.redirectErrorStream(true);
 
+        // 设置日志文件路径
+        File logFile = new File(rasaProjectPath, "rasa_log.txt");
+        processBuilder.redirectOutput(logFile);
         // 打印命令
         System.out.println("Running command: " + String.join(" ", command));
         try {

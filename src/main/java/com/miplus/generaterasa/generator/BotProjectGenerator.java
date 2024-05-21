@@ -43,7 +43,7 @@ public class BotProjectGenerator {
             BotManager.trainRasaModel(path);
         }
         if(run) {
-            BotManager.runDockerCompose(path+ "/docker-compose.yml");
+            BotManager.runDockerCompose(path,path+ "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
             BotManager.checkContainerStatus(param.getBotId() + "_action_server");
         }

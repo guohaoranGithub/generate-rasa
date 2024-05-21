@@ -92,11 +92,11 @@ public class FAQService extends BotService {
 
         Boolean train = param.getTrain();
         Boolean run = param.getRun();
-        if(train) {
+        if (train) {
             BotManager.trainRasaModel(param.getBotPath());
         }
-        if(run) {
-            BotManager.runDockerCompose(param.getBotPath()+ "/docker-compose.yml");
+        if (run) {
+            BotManager.runDockerCompose(param.getBotPath(), param.getBotPath() + "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
             BotManager.checkContainerStatus(param.getBotId() + "_action_server");
         }
