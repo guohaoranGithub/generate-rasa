@@ -335,7 +335,7 @@ public class BotConfigWriter {
                 "      - 5005:5005\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt && rasa run --enable-api\"\n"+
+                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa run --enable-api\"\n"+
                 "    depends_on:\n"+
                 "      - "+config.getBotName()+"_action_server\n\n"+
                 "  "+config.getBotName()+"_action_server:\n"+
@@ -344,7 +344,7 @@ public class BotConfigWriter {
                 "      - 5055:5055\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt && rasa run actions\""
+                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa run actions\""
                 ;
     }
 
