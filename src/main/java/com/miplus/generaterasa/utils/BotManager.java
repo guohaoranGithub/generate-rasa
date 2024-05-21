@@ -44,6 +44,7 @@ public class BotManager {
      * @param composeFilePath
      */
     public static void runDockerCompose(String composeFilePath) {
+        //docker compose -f /bot/j7dinrasd-5dx/docker-compose.yml up -d
         ProcessBuilder processBuilder = new ProcessBuilder("docker compose", "-f", composeFilePath, "up", "-d");
         processBuilder.directory(new File(composeFilePath).getParentFile());
         processBuilder.redirectErrorStream(true);

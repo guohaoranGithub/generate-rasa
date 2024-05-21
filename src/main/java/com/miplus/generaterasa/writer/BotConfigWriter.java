@@ -149,7 +149,7 @@ public class BotConfigWriter {
                 "      - run\n"+
                 "      - --enable-api\n"+
                 "    depends_on:\n"+
-                "      - action_server\n\n"+
+                "      - "+config.getBotName()+"_action_server\n\n"+
                 "  "+config.getBotName()+"_action_server:\n"+
                 "    image: rasa/rasa:3.0.13\n"+
                 "    ports:\n"+

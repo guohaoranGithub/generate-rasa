@@ -1,18 +1,20 @@
 package com.miplus.generaterasa.constant;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * 默认的一些配置
  */
 public class DefaultConfigure {
-    public static Map<String, String> INTENTS = null;
+    public static Map<String, List<String>> INTENTS = null;
 
     static {
         INTENTS = new LinkedHashMap<>();
-        INTENTS.put("goodbye", "src/main/resources/data/nlu/goodbye_intent.txt");
-        INTENTS.put("greet", "src/main/resources/data/nlu/greet_intent.txt");
+        INTENTS.put("goodbye", Arrays.asList("拜拜", "再见", "拜", "退出", "结束"));
+        INTENTS.put("greet", Arrays.asList("你好", "您好", "hello", "hi", "喂", "在吗"));
     }
 
     public static Map<String, String> RESPONSES_UTTER = null;

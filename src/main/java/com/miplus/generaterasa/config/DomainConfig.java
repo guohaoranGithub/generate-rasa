@@ -18,7 +18,7 @@ public class DomainConfig {
         if (null == intents || intents.isEmpty()) {
             //初始化默认配置
             intents = new ArrayList<>();
-            Map<String, String> intentsMap = DefaultConfigure.INTENTS;
+            Map<String, List<String>> intentsMap = DefaultConfigure.INTENTS;
             intents.addAll(intentsMap.keySet());
         }
         return intents;
