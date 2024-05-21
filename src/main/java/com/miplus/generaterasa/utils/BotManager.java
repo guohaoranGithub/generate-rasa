@@ -18,26 +18,26 @@ public class BotManager {
      *
      * @param projectPath
      */
-    public static void trainRasaModel(String projectPath) {
-        ProcessBuilder processBuilder = new ProcessBuilder("rasa", "train");
-        processBuilder.directory(new File(projectPath));
-        processBuilder.redirectErrorStream(true);
-        try {
-            Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-            int exitCode = process.waitFor();
-            if (exitCode != 0) {
-                throw new RuntimeException("Training failed with exit code: " + exitCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void trainRasaModel(String projectPath) {
+//        ProcessBuilder processBuilder = new ProcessBuilder("rasa", "train");
+//        processBuilder.directory(new File(projectPath));
+//        processBuilder.redirectErrorStream(true);
+//        try {
+//            Process process = processBuilder.start();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                System.out.println(line);
+//            }
+//
+//            int exitCode = process.waitFor();
+//            if (exitCode != 0) {
+//                throw new RuntimeException("Training failed with exit code: " + exitCode);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /**
      * 启动rasa

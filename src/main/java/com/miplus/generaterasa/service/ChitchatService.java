@@ -73,11 +73,7 @@ public class ChitchatService extends BotService {
         newDomainDataMap.put("actions", Collections.singletonList("respond_chitchat"));
         domainConfigWriter.appendToDomainFile(param.getBotPath(), newDomainDataMap);
 
-        Boolean train = param.getTrain();
         Boolean run = param.getRun();
-        if (train) {
-            BotManager.trainRasaModel(param.getBotPath());
-        }
         if (run) {
             BotManager.runDockerCompose(param.getBotPath(), param.getBotPath() + "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");

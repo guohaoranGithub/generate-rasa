@@ -335,16 +335,18 @@ public class BotConfigWriter {
                 "      - 5005:5005\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa run --enable-api\"\n"+
+                "    entrypoint: sh -c \"pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa train && rasa run --enable-api\"\n"+
                 "    depends_on:\n"+
-                "      - "+config.getBotName()+"_action_server\n\n"+
+                "      - "+config.getBotName()+"_action_server\n"+
+                "    user: root\n\n"+
                 "  "+config.getBotName()+"_action_server:\n"+
                 "    image: rasa/rasa:3.0.13\n"+
                 "    ports:\n"+
                 "      - 5055:5055\n"+
                 "    volumes:\n"+
                 "      - ./:/app\n"+
-                "    entrypoint: sh -c \"sudo pip3 install --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa run actions\""
+                "    entrypoint: sh -c \"pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-deps -r /app/requirements.txt --cache-dir=~/.pip/cache && rasa run actions\"\n"+
+                "    user: root"
                 ;
     }
 

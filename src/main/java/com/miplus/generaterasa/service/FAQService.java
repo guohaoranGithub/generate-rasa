@@ -90,11 +90,7 @@ public class FAQService extends BotService {
         newDomainDataMap.put("actions", Collections.singletonList("respond_faq"));
         domainConfigWriter.appendToDomainFile(param.getBotPath(), newDomainDataMap);
 
-        Boolean train = param.getTrain();
         Boolean run = param.getRun();
-        if (train) {
-            BotManager.trainRasaModel(param.getBotPath());
-        }
         if (run) {
             BotManager.runDockerCompose(param.getBotPath(), param.getBotPath() + "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");

@@ -5,10 +5,6 @@ import lombok.Data;
 @Data
 public class RasaParam {
     /**
-     * 是否训练
-     */
-    private Boolean train = false;
-    /**
      * 是否运行
      */
     private Boolean run = false;

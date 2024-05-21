@@ -37,11 +37,7 @@ public class BotProjectGenerator {
         defaultConfig.setProjectDirectory(path);
         defaultConfig.setBotName(param.getBotId());
         botConfigWriter.writeDefaultBotConfig(defaultConfig);
-        Boolean train = param.getTrain();
         Boolean run = param.getRun();
-        if(train) {
-            BotManager.trainRasaModel(path);
-        }
         if(run) {
             BotManager.runDockerCompose(path,path+ "/docker-compose.yml");
             BotManager.checkContainerStatus(param.getBotId() + "_rasa_service");
